@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="style.css">
+    <title>Document</title>
+    </head>
+<body>
+    <h1 class="fa-solid fa-face-glasses">Cálculo de Média</h1>
+    <form id="mediaForm">
+        <label>Notas do Aluno:</label>
+        <input type="number" placeholder="Digite a nota do aluno" id="nota1" step="0.1">
+        <input type="number" placeholder="Digite a nota do aluno" id="nota2" step="0.1">
+        <input type="number" placeholder="Digite a nota do aluno" id="nota3" step="0.1">
+        <input type="number" placeholder="Digite a nota do aluno" id="nota4" step="0.1">
+        <input type="number" placeholder="Digite a nota do aluno" id="nota5" step="0.1">
+
+        <label>Tipo de Média:</label>
+        <select id="tipoMedia">
+            <option value="aritmetica">Aritmética</option>
+            <option value="ponderada">Ponderada</option>
+        </select>
+
+        <div id="pesosContainer" style="display: none;">
+            <label>Pesos das Notas:</label>
+            <input type="number" id="peso1" step="0.1">
+            <input type="number" id="peso2" step="0.1">
+            <input type="number" id="peso3" step="0.1">
+            <input type="number" id="peso4" step="0.1">
+            <input type="number" id="peso5" step="0.1">
+        </div>
+
+        <button type="submit">Calcular Média</button>
+    </form>
+
+    <div id="resultado">
+        <h2>Resultado:</h2>
+        <p id="media"></p>
+        <p id="status"></p>
+
+        <script>
+            document.getElementById('mediaForm').addEventListener('submit', function(event) {
+                event.preventDefault();
+
+                var nota1 = parseFloat(document.getElementById('nota1').value);
+                var nota2 = parseFloat(document.getElementById('nota2').value);
+                var nota3 = parseFloat(document.getElementById('nota3').value);
+                var nota4 = parseFloat(document.getElementById('nota4').value);
+                var nota5 = parseFloat(document.getElementById('nota5').value);
+
+                var tipoMedia = document.getElementById('tipoMedia').value;
+
+                var media = 0;
+
+                if (tipoMedia === 'aritmetica') {
+                    media = (nota1 + nota2 + nota3 + nota4 + nota5) / 5;
+                } else if (tipoMedia === 'ponderada') {
+                    var peso1 = parseFloat(document.getElementById('peso1').value);
+                    var peso2 = parseFloat(document.getElementById('peso2').value);
+                    var peso3 = parseFloat(document.getElementById('peso3').value);
+                    var peso4 = parseFloat(document.getElementById('peso4').value);
+                    var peso5 = parseFloat(document.getElementById('peso5').value);
+
+                    var somaPesos = peso1 + peso2 + peso3 + peso4 + peso5;
+                    media = (nota1 * peso1 + nota2 * peso2 + nota3 * peso3 + nota4 * peso4 + nota5 * peso5) / somaPesos;
+                }
+
+                document.getElementById('media').textContent = 'Média: ' + media.toFixed(2);
+
+                if (media >= 7) {
+                    document.getElementById('status').textContent = 'Aprovado';
+                } else {
+                    document.getElementById('status').textContent = 'Reprovado';
+                }
+            });
+
+            document.getElementById('tipoMedia').addEventListener('change', function() {
+                var tipoMedia = document.getElementById('tipoMedia').value;
+                var pesosContainer = document.getElementById('pesosContainer');
+
+                if (tipoMedia === 'ponderada') {
+                    pesosContainer.style.display = 'block';
+                } else {
+                    pesosContainer.style.display = 'none';
+                }
+            });
+        </script>
+    </div>
+</body>
+</html>
+
+
+
